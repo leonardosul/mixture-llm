@@ -1,0 +1,75 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mixture-llm"
+version = "0.1.0"
+description = "Lightweight Mixture of Agents pipeline framework."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+authors = [{name = "Leonard O'Sullivan", email = "leonard@machine.dev"}]
+keywords = ["llm", "moa", "mixture-of-agents", "prompting", "pipelines"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Typing :: Typed",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8",
+  "pytest-asyncio>=0.24",
+  "ruff>=0.6",
+  "pre-commit>=3.8",
+  "build>=1.2",
+  "twine>=5.1",
+  "mkdocs>=1.6",
+  "mkdocstrings[python]>=0.25",
+]
+
+[project.urls]
+Homepage = "https://github.com/leonardosul/mixture-llm"
+Documentation = "https://leonardosul.github.io/mixture-llm/"
+Issues = "https://github.com/leonardosul/mixture-llm/issues"
+
+[tool.setuptools]
+include-package-data = true
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = []
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+addopts = "-q"
+asyncio_mode = "auto"
+
+[tool.setuptools.package-data]
+mixture_llm = ["py.typed"]
+
+[tool.mypy]
+python_version = "3.10"
+mypy_path = "src"
+packages = ["mixture_llm"]
+strict = true
