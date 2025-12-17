@@ -1,0 +1,57 @@
+site_name: mixture-llm
+site_description: Combine LLMs to beat the best single LLM
+site_url: https://leonardosul.github.io/mixture-llm
+repo_url: https://github.com/leonardosul/mixture-llm
+repo_name: mixture-llm
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+    - content.code.annotate
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - tables
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Pipelines: pipelines.md
+  - Steps Reference: steps.md
+  - Client Examples: clients.md
+  - Research: research.md
+  - API Reference: api.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/leonardosul/mixture-llm
+
+plugins:
+  - search

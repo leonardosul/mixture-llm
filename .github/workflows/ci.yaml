@@ -3,7 +3,18 @@ name: CI
 on:
   push:
     branches: [main]
+    paths:
+      - ".github/workflows/ci.yaml"
+      - ".pre-commit-config.yaml"
+      - "src/**"
+      - "tests/**"
+
   pull_request:
+    paths:
+      - ".github/workflows/ci.yaml"
+      - ".pre-commit-config.yaml"
+      - "src/**"
+      - "tests/**"
 
 jobs:
   test:
