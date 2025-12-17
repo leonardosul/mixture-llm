@@ -1,5 +1,9 @@
 # mixture-llm
 
+[![CI](https://github.com/leonardosul/mixture-llm/actions/workflows/ci.yaml/badge.svg)](https://github.com/leonardosul/mixture-llm/actions/workflows/ci.yaml)
+[![PyPI](https://img.shields.io/pypi/v/mixture-llm)](https://pypi.org/project/mixture-llm/)
+[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://leonardosul.github.io/mixture-llm)
+
 Combine LLMs to beat the best single LLM.
 
 The Mixture-of-Agents architecture achieved **65.1% on AlpacaEval 2.0** using only open-source models—surpassing GPT-4o's 57.5%. This library gives you the building blocks to construct these pipelines.
