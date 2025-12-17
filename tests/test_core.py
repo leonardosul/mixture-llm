@@ -1,5 +1,6 @@
 import pytest
-from mixture_llm import Propose, Aggregate, Shuffle, Take, run
+
+from mixture_llm import Aggregate, Propose, Shuffle, Take, run
 
 
 async def mock_client(model, messages, temp, max_tokens):

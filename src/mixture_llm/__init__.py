@@ -2,20 +2,21 @@
 
 from __future__ import annotations
 
-from importlib.metadata import PackageNotFoundError, version as _version
+from importlib.metadata import PackageNotFoundError
+from importlib.metadata import version as _version
 
 from .core import (
-    Shuffle,
+    Aggregate,
     Dropout,
-    Sample,
-    Take,
     Filter,
     Map,
     Propose,
-    Synthesize,
-    Aggregate,
-    Refine,
     Rank,
+    Refine,
+    Sample,
+    Shuffle,
+    Synthesize,
+    Take,
     Vote,
     run,
 )
