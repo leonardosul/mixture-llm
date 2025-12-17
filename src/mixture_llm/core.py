@@ -166,6 +166,7 @@ def _rank(text: str, *, max_len: int, n: int) -> list[int]:
     return out
 
 
+# TODO: pipeline type annotation
 async def run(pipeline: list[Any], query: str, client: Client) -> tuple[str, list[dict[str, Any]]]:
     responses: list[str] = []
     history: list[dict[str, Any]] = []
