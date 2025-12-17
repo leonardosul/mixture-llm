@@ -216,22 +216,26 @@ free_self_moa = [
 
 ## Examples
 
-The [`examples/`](examples/) folder contains runnable scripts for different providers:
+The [`examples/`](examples/) directory contains tested, runnable scripts for different providers. See [`examples/EXAMPLES.md`](examples/EXAMPLES.md) for detailed documentation.
 
-| Example | Provider | Description |
-|---------|----------|-------------|
-| [`openai_basic.py`](examples/openai_basic.py) | OpenAI | Simplest MoA with GPT-4o-mini |
-| [`openai_self_moa.py`](examples/openai_self_moa.py) | OpenAI | Self-MoA (6 samples, one model) |
-| [`multi_provider.py`](examples/multi_provider.py) | OpenAI + Anthropic | Mix GPT-4o and Claude |
-| [`openrouter_moa.py`](examples/openrouter_moa.py) | OpenRouter | 3-layer Together MoA config |
-| [`groq_free.py`](examples/groq_free.py) | Groq | Free tier, zero cost |
-| [`with_history.py`](examples/with_history.py) | Groq | Inspect execution & costs |
+| Example | Provider | What You'll Learn |
+|---------|----------|-------------------|
+| [`openai_basic.py`](examples/openai_basic.py) | OpenAI | Basic MoA pattern (Propose → Aggregate), client setup, token tracking |
+| [`openai_self_moa.py`](examples/openai_self_moa.py) | OpenAI | Self-MoA technique—one model sampled 6 times beats diverse mixtures |
+| [`multi_provider.py`](examples/multi_provider.py) | OpenAI + Anthropic | Provider routing, Shuffle step to prevent position bias |
+| [`openrouter_moa.py`](examples/openrouter_moa.py) | OpenRouter | 3-layer MoA (Propose → Synthesize → Aggregate), paper configuration |
+| [`groq_free.py`](examples/groq_free.py) | Groq | Free experimentation, LiteLLM integration, Dropout for robustness |
+| [`with_history.py`](examples/with_history.py) | Groq | Pipeline debugging, Rank step, execution history inspection |
 
 ```bash
-# Install dependencies and run
+# Install and run
 pip install -e ".[examples]"
 export OPENAI_API_KEY=sk-...
 python examples/openai_basic.py
+
+# Or try free with Groq
+export GROQ_API_KEY=gsk_...
+python examples/groq_free.py
 ```
 
 ## Key findings from the research
