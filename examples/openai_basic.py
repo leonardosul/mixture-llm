@@ -30,10 +30,10 @@ async def openai_client(model, messages, temp, max_tokens):
 
 
 async def main():
-    # Simple 2-layer MoA with GPT-4o-mini
+    # Simple 2-layer MoA with GPT-5.2-mini
     pipeline = [
-        Propose(["gpt-4o-mini"] * 3, temp=0.7),
-        Aggregate("gpt-4o-mini"),
+        Propose(["gpt-5.2-mini"] * 3, temp=0.7),
+        Aggregate("gpt-5.2-mini"),
     ]
 
     query = "What are the key differences between Python and Rust?"

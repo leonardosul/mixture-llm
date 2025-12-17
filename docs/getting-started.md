@@ -26,8 +26,8 @@ async def client(model, messages, temp, max_tokens):
 
 # Define your pipeline
 pipeline = [
-    Propose(["gpt-4o", "claude-sonnet-4-20250514"]),
-    Aggregate("gpt-4o"),
+    Propose(["gpt-5.2", "claude-sonnet-4-5-20250514"]),
+    Aggregate("gpt-5.2"),
 ]
 
 # Run it
@@ -82,8 +82,8 @@ async def openai_client(model, messages, temp, max_tokens):
     )
 
 pipeline = [
-    Propose(["gpt-4o-mini", "gpt-4o-mini", "gpt-4o-mini"], temp=0.7),
-    Aggregate("gpt-4o"),
+    Propose(["gpt-5.2-mini", "gpt-5.2-mini", "gpt-5.2-mini"], temp=0.7),
+    Aggregate("gpt-5.2"),
 ]
 
 async def main():

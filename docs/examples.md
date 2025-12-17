@@ -49,8 +49,8 @@ The simplest MoA implementation. Start here to understand the core pattern.
 from mixture_llm import Propose, Aggregate, run
 
 pipeline = [
-    Propose(["gpt-4o-mini"] * 3, temp=0.7),  # 3 proposals via temperature
-    Aggregate("gpt-4o-mini"),                 # Combine into final answer
+    Propose(["gpt-5.2-mini"] * 3, temp=0.7),  # 3 proposals via temperature
+    Aggregate("gpt-5.2-mini"),                 # Combine into final answer
 ]
 
 result, history = await run(pipeline, query, openai_client)
@@ -80,8 +80,8 @@ Based on [Li et al. (2025)](https://arxiv.org/abs/2502.00674): sampling one grea
 
 ```python
 pipeline = [
-    Propose(["gpt-4o"] * 6, temp=0.7, max_tokens=512),  # 6 samples, one model
-    Aggregate("gpt-4o", max_tokens=1024),
+    Propose(["gpt-5.2"] * 6, temp=0.7, max_tokens=512),  # 6 samples, one model
+    Aggregate("gpt-5.2", max_tokens=1024),
 ]
 ```
 
@@ -105,7 +105,7 @@ python examples/openai_self_moa.py
 
 **File:** [`multi_provider.py`](https://github.com/leonardosul/mixture-llm/blob/main/examples/multi_provider.py)
 
-Mix models from different providers in a single pipeline, combining the strengths of GPT-4o and Claude.
+Mix models from different providers in a single pipeline, combining the strengths of GPT-5.2 and Claude.
 
 ```python
 # Route to appropriate provider based on model name
@@ -120,9 +120,9 @@ async def multi_provider_client(model, messages, temp, max_tokens):
     # ... make API call
 
 pipeline = [
-    Propose(["gpt-4o", "claude-sonnet-4-20250514", "gpt-4o-mini"], temp=0.7, max_tokens=512),
+    Propose(["gpt-5.2", "claude-sonnet-4-5-20250514", "gpt-5.2-mini"], temp=0.7, max_tokens=512),
     Shuffle(),  # Prevent position bias
-    Aggregate("claude-sonnet-4-20250514", max_tokens=1024),
+    Aggregate("claude-sonnet-4-5-20250514", max_tokens=1024),
 ]
 ```
 

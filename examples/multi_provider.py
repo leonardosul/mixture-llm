@@ -42,27 +42,27 @@ async def multi_provider_client(model, messages, temp, max_tokens):
 
 
 async def main():
-    # Mix providers: GPT-4o and Claude as proposers, Claude aggregates
+    # Mix providers: GPT-5.2 and Claude as proposers, Claude aggregates
     pipeline = [
         Propose(
             [
-                "gpt-4o",
-                "claude-sonnet-4-20250514",
-                "gpt-4o-mini",
+                "gpt-5.2",
+                "claude-sonnet-4-5-20250514",
+                "gpt-5.2-mini",
             ],
             temp=0.7,
             max_tokens=512,
         ),
         Shuffle(),  # Prevent position bias
-        Aggregate("claude-sonnet-4-20250514", max_tokens=1024),
+        Aggregate("claude-sonnet-4-5-20250514", max_tokens=1024),
     ]
 
     query = "What are the most promising approaches to aligning AI systems with human values?"
 
     print(f"Query: {query}\n")
     print("Running multi-provider MoA...")
-    print("  Proposers: gpt-4o, claude-sonnet-4-20250514, gpt-4o-mini")
-    print("  Aggregator: claude-sonnet-4-20250514\n")
+    print("  Proposers: gpt-5.2, claude-sonnet-4-5-20250514, gpt-5.2-mini")
+    print("  Aggregator: claude-sonnet-4-5-20250514\n")
 
     result, history = await run(pipeline, query, multi_provider_client)
 

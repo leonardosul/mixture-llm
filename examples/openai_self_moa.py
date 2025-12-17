@@ -36,14 +36,14 @@ async def main():
     # Self-MoA: same model, 6 samples, temperature 0.7 for diversity
     # This configuration can outperform diverse model mixtures
     pipeline = [
-        Propose(["gpt-4o"] * 6, temp=0.7, max_tokens=512),
-        Aggregate("gpt-4o", max_tokens=1024),
+        Propose(["gpt-5.2"] * 6, temp=0.7, max_tokens=512),
+        Aggregate("gpt-5.2", max_tokens=1024),
     ]
 
     query = "Explain the implications of quantum computing for cryptography"
 
     print(f"Query: {query}\n")
-    print("Running Self-MoA (6 samples from gpt-4o)...")
+    print("Running Self-MoA (6 samples from gpt-5.2)...")
 
     result, history = await run(pipeline, query, openai_client)
 
