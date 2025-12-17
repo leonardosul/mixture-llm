@@ -36,6 +36,7 @@ pip install mixture-llm
 ## Next steps
 
 - [Getting Started](getting-started.md) — install and run your first pipeline
+- [Examples](examples.md) — tested, runnable scripts for different providers
 - [Pipelines](pipelines.md) — paper-accurate configurations
 - [Steps Reference](steps.md) — all available pipeline steps
 - [Client Examples](clients.md) — OpenAI, Anthropic, OpenRouter, Groq
