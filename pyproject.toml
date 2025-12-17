@@ -26,15 +26,22 @@ classifiers = [
 dependencies = []
 
 [project.optional-dependencies]
+openai = ["openai>=1.0.0"]
+litellm = ["litellm>=1.0.0"]
+examples = ["openai>=1.0.0", "litellm>=1.0.0"]
 dev = [
-  "pytest>=8",
-  "pytest-asyncio>=0.24",
-  "ruff>=0.6",
-  "pre-commit>=3.8",
-  "build>=1.2",
-  "twine>=5.1",
-  "mkdocs>=1.6",
-  "mkdocstrings[python]>=0.25",
+    "mixture-llm[examples]",
+    "pytest>=8",
+    "pytest-asyncio>=0.24",
+    "ruff>=0.6",
+    "pre-commit>=3.8",
+    "build>=1.2",
+    "twine>=5.1",
+]
+docs = [
+    "mkdocs>=1.6",
+    "mkdocs-material>=9.5",
+    "mkdocstrings[python]>=0.25",
 ]
 
 [project.urls]

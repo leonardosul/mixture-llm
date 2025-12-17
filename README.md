@@ -2,7 +2,7 @@
 
 Combine LLMs to beat the best single LLM.
 
-The Mixture-of-Agents architecture achieved **65.1% on AlpacaEval 2.0** using only open-source models, surpassing GPT-4o's 57.5%. This library gives you the building blocks to construct these pipelines.
+The Mixture-of-Agents architecture achieved **65.1% on AlpacaEval 2.0** using only open-source models—surpassing GPT-4o's 57.5%. This library gives you the building blocks to construct these pipelines.
 
 ## Install
 
@@ -212,6 +212,26 @@ free_self_moa = [
     Propose(["llama-3.3-70b-versatile"] * 4, temp=0.7),
     Aggregate("llama-3.3-70b-versatile"),
 ]
+```
+
+## Examples
+
+The [`examples/`](examples/) folder contains runnable scripts for different providers:
+
+| Example | Provider | Description |
+|---------|----------|-------------|
+| [`openai_basic.py`](examples/openai_basic.py) | OpenAI | Simplest MoA with GPT-4o-mini |
+| [`openai_self_moa.py`](examples/openai_self_moa.py) | OpenAI | Self-MoA (6 samples, one model) |
+| [`multi_provider.py`](examples/multi_provider.py) | OpenAI + Anthropic | Mix GPT-4o and Claude |
+| [`openrouter_moa.py`](examples/openrouter_moa.py) | OpenRouter | 3-layer Together MoA config |
+| [`groq_free.py`](examples/groq_free.py) | Groq | Free tier, zero cost |
+| [`with_history.py`](examples/with_history.py) | Groq | Inspect execution & costs |
+
+```bash
+# Install dependencies and run
+pip install -e ".[examples]"
+export OPENAI_API_KEY=sk-...
+python examples/openai_basic.py
 ```
 
 ## Key findings from the research
