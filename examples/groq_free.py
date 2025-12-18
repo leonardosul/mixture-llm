@@ -53,39 +53,63 @@ async def main():
 
     query = "What are the most effective strategies for learning a new programming language?"
 
-    print(f"Query: {query}\n")
+    # Show pipeline configuration
+    print("Pipeline:")
+    print("  Step 1: Propose")
+    print(f"    Models: {', '.join(GROQ_FREE)}")
+    print("  Step 2: Shuffle")
+    print("  Step 3: Dropout (20%)")
+    print("  Step 4: Aggregate")
+    print("    Model: llama-3.3-70b-versatile")
+    print()
+    print(f"Query: {query}")
+    print()
     print("Running MoA with Groq free tier...")
-    print(f"  Models: {', '.join(GROQ_FREE)}\n")
 
     result, history = await run(pipeline, query, groq_client)
 
+    # Show final output
+    print(f"\n{'=' * 60}")
+    print("OUTPUT:")
     print(f"{'=' * 60}\n")
     print(result)
 
-    # Show execution details
+    # Show individual proposals (first 100 chars each)
     print(f"\n{'=' * 60}")
-    print("Execution:")
-    total_time = 0
-    total_in = 0
-    total_out = 0
+    print("PROPOSALS (first 100 chars each):")
+    print(f"{'=' * 60}")
+    for i, output in enumerate(history[0]["outputs"], 1):
+        preview = output[:100].replace("\n", " ")
+        print(f"  {i}. {preview}...")
+
+    # Show LLM calls with details
+    print(f"\n{'=' * 60}")
+    print("LLM CALLS:")
+    print(f"{'=' * 60}")
     for step in history:
-        n_outputs = len(step["outputs"])
-        n_calls = len(step["llm_calls"])
-        print(
-            f"  {step['step']}: {n_outputs} outputs, {n_calls} LLM calls, {step['step_time']:.2f}s"
-        )
-        total_time += step["step_time"]
-        total_in += sum(c["in_tokens"] for c in step["llm_calls"])
-        total_out += sum(c["out_tokens"] for c in step["llm_calls"])
-    print(f"\nTokens: {total_in:,} in, {total_out:,} out")
-    print(f"Total time: {total_time:.2f}s")
+        if step["llm_calls"]:
+            print(f"\n  {step['step']}:")
+            for call in step["llm_calls"]:
+                status = "✓" if "error" not in call else f"✗ {call['error']}"
+                tokens = f"{call['in_tokens']:,} in / {call['out_tokens']:,} out"
+                print(f"    {call['model']}: {call['time']:.2f}s | {tokens} | {status}")
+
+    # Show totals
+    total_in = sum(c["in_tokens"] for h in history for c in h["llm_calls"])
+    total_out = sum(c["out_tokens"] for h in history for c in h["llm_calls"])
+    total_time = sum(h["step_time"] for h in history)
+    print(f"\n{'=' * 60}")
+    print("TOTALS:")
+    print(f"{'=' * 60}")
+    print(f"  Time: {total_time:.2f}s")
+    print(f"  Tokens: {total_in:,} in / {total_out:,} out")
 
 
 async def self_moa_example():
     """Self-MoA variant using single Groq model."""
     print("\n" + "=" * 60)
-    print("Self-MoA with Groq (single model, 4 samples)")
-    print("=" * 60 + "\n")
+    print("SELF-MOA EXAMPLE")
+    print("=" * 60)
 
     pipeline = [
         Propose(["llama-3.3-70b-versatile"] * 4, temp=0.7, max_tokens=512),
@@ -94,26 +118,54 @@ async def self_moa_example():
 
     query = "Explain the concept of technical debt in software engineering"
 
+    # Show pipeline configuration
+    print("\nPipeline:")
+    print("  Step 1: Propose")
+    print("    Models: llama-3.3-70b-versatile (x4)")
+    print("  Step 2: Aggregate")
+    print("    Model: llama-3.3-70b-versatile")
+    print()
+    print(f"Query: {query}")
+    print()
+    print("Running Self-MoA with Groq...")
+
     result, history = await run(pipeline, query, groq_client)
+
+    # Show final output
+    print(f"\n{'=' * 60}")
+    print("OUTPUT:")
+    print(f"{'=' * 60}\n")
     print(result)
 
-    # Show execution details
+    # Show individual proposals (first 100 chars each)
     print(f"\n{'=' * 60}")
-    print("Execution:")
-    total_time = 0
-    total_in = 0
-    total_out = 0
+    print("PROPOSALS (first 100 chars each):")
+    print(f"{'=' * 60}")
+    for i, output in enumerate(history[0]["outputs"], 1):
+        preview = output[:100].replace("\n", " ")
+        print(f"  {i}. {preview}...")
+
+    # Show LLM calls with details
+    print(f"\n{'=' * 60}")
+    print("LLM CALLS:")
+    print(f"{'=' * 60}")
     for step in history:
-        n_outputs = len(step["outputs"])
-        n_calls = len(step["llm_calls"])
-        print(
-            f"  {step['step']}: {n_outputs} outputs, {n_calls} LLM calls, {step['step_time']:.2f}s"
-        )
-        total_time += step["step_time"]
-        total_in += sum(c["in_tokens"] for c in step["llm_calls"])
-        total_out += sum(c["out_tokens"] for c in step["llm_calls"])
-    print(f"\nTokens: {total_in:,} in, {total_out:,} out")
-    print(f"Total time: {total_time:.2f}s")
+        if step["llm_calls"]:
+            print(f"\n  {step['step']}:")
+            for call in step["llm_calls"]:
+                status = "✓" if "error" not in call else f"✗ {call['error']}"
+                tokens = f"{call['in_tokens']:,} in / {call['out_tokens']:,} out"
+                print(f"    {call['model']}: {call['time']:.2f}s | {tokens} | {status}")
+
+    # Show totals
+    total_in = sum(c["in_tokens"] for h in history for c in h["llm_calls"])
+    total_out = sum(c["out_tokens"] for h in history for c in h["llm_calls"])
+    total_time = sum(h["step_time"] for h in history)
+    print(f"\n{'=' * 60}")
+    print("TOTALS:")
+    print(f"{'=' * 60}")
+    print(f"  Time: {total_time:.2f}s")
+    print(f"  Tokens: {total_in:,} in / {total_out:,} out")
 
 
 async def run_all():
