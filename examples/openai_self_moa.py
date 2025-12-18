@@ -12,6 +12,7 @@ Requirements:
 import asyncio
 
 from openai import AsyncOpenAI
+from utils import print_results
 
 from mixture_llm import Aggregate, Propose, run
 
@@ -19,12 +20,19 @@ client = AsyncOpenAI()
 
 
 async def openai_client(model, messages, temp, max_tokens):
-    resp = await client.chat.completions.create(
-        model=model,
-        messages=messages,
-        temperature=temp,
-        max_tokens=max_tokens,
-    )
+    # GPT-5 models require max_completion_tokens, don't support custom temperature,
+    # and need reasoning_effort
+    is_gpt5 = model.startswith("gpt-5")
+    params = {
+        "model": model,
+        "messages": messages,
+        **(
+            {"max_completion_tokens": max_tokens, "reasoning_effort": "minimal"}
+            if is_gpt5
+            else {"max_tokens": max_tokens, "temperature": temp}
+        ),
+    }
+    resp = await client.chat.completions.create(**params)
     return (
         resp.choices[0].message.content,
         resp.usage.prompt_tokens,
@@ -36,34 +44,16 @@ async def main():
     # Self-MoA: same model, 6 samples, temperature 0.7 for diversity
     # This configuration can outperform diverse model mixtures
     pipeline = [
-        Propose(["gpt-4o"] * 6, temp=0.7, max_tokens=512),
-        Aggregate("gpt-4o", max_tokens=1024),
+        Propose(["gpt-5-nano-2025-08-07"] * 6, temp=0.7),
+        Aggregate("gpt-5-nano-2025-08-07", max_tokens=1024),
     ]
 
     query = "Explain the implications of quantum computing for cryptography"
 
-    print(f"Query: {query}\n")
-    print("Running Self-MoA (6 samples from gpt-4o)...")
-
+    print("Running Self-MoA...")
     result, history = await run(pipeline, query, openai_client)
 
-    print(f"\n{'=' * 60}\n")
-    print(result)
-
-    # Show individual proposals
-    print(f"\n{'=' * 60}")
-    print("Individual proposals (first 200 chars each):\n")
-    for i, output in enumerate(history[0]["outputs"], 1):
-        preview = output[:200].replace("\n", " ")
-        print(f"  {i}. {preview}...")
-
-    # Token usage
-    total_in = sum(c["in_tokens"] for h in history for c in h["llm_calls"])
-    total_out = sum(c["out_tokens"] for h in history for c in h["llm_calls"])
-    total_time = sum(h["step_time"] for h in history)
-    print(f"\n{'=' * 60}")
-    print(f"Tokens: {total_in:,} in, {total_out:,} out")
-    print(f"Total time: {total_time:.2f}s")
+    print_results(pipeline, query, result, history)
 
 
 if __name__ == "__main__":

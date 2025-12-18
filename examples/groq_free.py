@@ -17,6 +17,7 @@ import asyncio
 from litellm import acompletion
 
 from mixture_llm import Aggregate, Dropout, Propose, Shuffle, run
+from utils import print_results
 
 
 async def groq_client(model, messages, temp, max_tokens):
@@ -53,38 +54,16 @@ async def main():
 
     query = "What are the most effective strategies for learning a new programming language?"
 
-    print(f"Query: {query}\n")
     print("Running MoA with Groq free tier...")
-    print(f"  Models: {', '.join(GROQ_FREE)}\n")
-
     result, history = await run(pipeline, query, groq_client)
 
-    print(f"{'=' * 60}\n")
-    print(result)
-
-    # Show execution details
-    print(f"\n{'=' * 60}")
-    print("Execution:")
-    total_time = 0
-    total_in = 0
-    total_out = 0
-    for step in history:
-        n_outputs = len(step["outputs"])
-        n_calls = len(step["llm_calls"])
-        print(
-            f"  {step['step']}: {n_outputs} outputs, {n_calls} LLM calls, {step['step_time']:.2f}s"
-        )
-        total_time += step["step_time"]
-        total_in += sum(c["in_tokens"] for c in step["llm_calls"])
-        total_out += sum(c["out_tokens"] for c in step["llm_calls"])
-    print(f"\nTokens: {total_in:,} in, {total_out:,} out")
-    print(f"Total time: {total_time:.2f}s")
+    print_results(pipeline, query, result, history)
 
 
 async def self_moa_example():
     """Self-MoA variant using single Groq model."""
     print("\n" + "=" * 60)
-    print("Self-MoA with Groq (single model, 4 samples)")
+    print("SELF-MOA EXAMPLE")
     print("=" * 60 + "\n")
 
     pipeline = [
@@ -94,26 +73,10 @@ async def self_moa_example():
 
     query = "Explain the concept of technical debt in software engineering"
 
+    print("Running Self-MoA with Groq...")
     result, history = await run(pipeline, query, groq_client)
-    print(result)
 
-    # Show execution details
-    print(f"\n{'=' * 60}")
-    print("Execution:")
-    total_time = 0
-    total_in = 0
-    total_out = 0
-    for step in history:
-        n_outputs = len(step["outputs"])
-        n_calls = len(step["llm_calls"])
-        print(
-            f"  {step['step']}: {n_outputs} outputs, {n_calls} LLM calls, {step['step_time']:.2f}s"
-        )
-        total_time += step["step_time"]
-        total_in += sum(c["in_tokens"] for c in step["llm_calls"])
-        total_out += sum(c["out_tokens"] for c in step["llm_calls"])
-    print(f"\nTokens: {total_in:,} in, {total_out:,} out")
-    print(f"Total time: {total_time:.2f}s")
+    print_results(pipeline, query, result, history)
 
 
 async def run_all():

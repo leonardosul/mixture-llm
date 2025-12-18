@@ -45,9 +45,9 @@ python examples/with_history.py
 
 | Example | Provider | Description |
 |---------|----------|-------------|
-| [`openai_basic.py`](examples/openai_basic.py) | OpenAI | Simplest MoA with GPT-4o-mini |
+| [`openai_basic.py`](examples/openai_basic.py) | OpenAI | Simplest MoA with GPT-4.1-mini |
 | [`openai_self_moa.py`](examples/openai_self_moa.py) | OpenAI | Self-MoA (6 samples, one model) |
-| [`multi_provider.py`](examples/multi_provider.py) | OpenAI + Anthropic | Mix GPT-4o and Claude |
+| [`multi_provider.py`](examples/multi_provider.py) | OpenAI + Anthropic | Mix GPT-5.2-chat-latest and Claude |
 | [`openrouter_moa.py`](examples/openrouter_moa.py) | OpenRouter | 3-layer Together MoA config |
 | [`groq_free.py`](examples/groq_free.py) | Groq | Free tier, zero cost |
 | [`with_history.py`](examples/with_history.py) | Groq | Inspect execution & costs |

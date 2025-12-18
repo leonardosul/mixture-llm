@@ -13,6 +13,7 @@ import asyncio
 import os
 
 from openai import AsyncOpenAI
+from utils import print_results
 
 from mixture_llm import Aggregate, Propose, Synthesize, run
 
@@ -41,7 +42,7 @@ PROPOSERS = [
     "qwen/qwen-2.5-72b-instruct",
     "meta-llama/llama-3.3-70b-instruct",
     "mistralai/mixtral-8x22b-instruct",
-    "databricks/dbrx-instruct",
+    # "databricks/dbrx-instruct", # No longer available on OpenRouter
 ]
 
 
@@ -58,24 +59,10 @@ async def main():
 
     query = "Compare and contrast the economic policies of keynesianism and monetarism"
 
-    print(f"Query: {query}\n")
     print("Running 3-layer MoA via OpenRouter...")
-    print(f"  Proposers: {len(PROPOSERS)} models")
-    print("  Layers: Propose → Synthesize → Aggregate\n")
-
     result, history = await run(pipeline, query, openrouter_client)
 
-    print(f"{'=' * 60}\n")
-    print(result)
-
-    # Timing breakdown
-    print(f"\n{'=' * 60}")
-    print("Timing by layer:")
-    for step in history:
-        print(f"  {step['step']}: {step['step_time']:.2f}s")
-
-    total_time = sum(h["step_time"] for h in history)
-    print(f"  Total: {total_time:.2f}s")
+    print_results(pipeline, query, result, history)
 
 
 if __name__ == "__main__":

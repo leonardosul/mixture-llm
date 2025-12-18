@@ -26,8 +26,8 @@ async def client(model, messages, temp, max_tokens):
 
 # Define your pipeline
 pipeline = [
-    Propose(["gpt-4o", "claude-sonnet-4-20250514"]),
-    Aggregate("gpt-4o"),
+    Propose(["gpt-5-nano-2025-08-07", "claude-sonnet-4-5"]),
+    Aggregate("gpt-5-nano-2025-08-07"),
 ]
 
 # Run it
@@ -69,12 +69,14 @@ from mixture_llm import Propose, Aggregate, run
 client = AsyncOpenAI()
 
 async def openai_client(model, messages, temp, max_tokens):
-    resp = await client.chat.completions.create(
-        model=model,
-        messages=messages,
-        temperature=temp,
-        max_tokens=max_tokens,
-    )
+    # GPT-5: max_completion_tokens, no temperature, minimal reasoning
+    is_gpt5 = model.startswith("gpt-5")
+    params = {
+        "model": model,
+        "messages": messages,
+        **({"max_completion_tokens": max_tokens, "reasoning_effort": "minimal"} if is_gpt5 else {"max_tokens": max_tokens, "temperature": temp}),
+    }
+    resp = await client.chat.completions.create(**params)
     return (
         resp.choices[0].message.content,
         resp.usage.prompt_tokens,
@@ -82,8 +84,8 @@ async def openai_client(model, messages, temp, max_tokens):
     )
 
 pipeline = [
-    Propose(["gpt-4o-mini", "gpt-4o-mini", "gpt-4o-mini"], temp=0.7),
-    Aggregate("gpt-4o"),
+    Propose(["gpt-5-nano-2025-08-07", "gpt-5-nano-2025-08-07", "gpt-5-nano-2025-08-07"], temp=0.7),
+    Aggregate("gpt-5-nano-2025-08-07"),
 ]
 
 async def main():
