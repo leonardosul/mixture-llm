@@ -43,6 +43,14 @@ docs = [
     "mkdocs-material>=9.5",
     "mkdocstrings[python]>=0.25",
 ]
+benchmark = [
+    "litellm>=1.0.0",
+    "datasets>=4.0",
+    "evaluate>=0.4",
+    "nltk>=3.8",
+    "rouge-score>=0.1",
+    "bert-score>=0.3",
+]
 
 [project.urls]
 Homepage = "https://github.com/leonardosul/mixture-llm"
