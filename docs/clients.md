@@ -113,13 +113,12 @@ PROPOSERS = [
     "qwen/qwen-2.5-72b-instruct",
     "meta-llama/llama-3.3-70b-instruct",
     "mistralai/mixtral-8x22b-instruct",
-    "databricks/dbrx-instruct",
 ]
 
 together_moa_openrouter = [
     Propose(PROPOSERS, temp=0.7, max_tokens=512),
     Synthesize(PROPOSERS, temp=0.7, max_tokens=512),
-    Aggregate("qwen/qwen-2.5-72b-instruct"),
+    Aggregate("qwen/qwen-2.5-72b-instruct", max_tokens=1024),
 ]
 ```
 
