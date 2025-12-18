@@ -177,7 +177,6 @@ PROPOSERS = [
     "qwen/qwen-2.5-72b-instruct",
     "meta-llama/llama-3.3-70b-instruct",
     "mistralai/mixtral-8x22b-instruct",
-    "databricks/dbrx-instruct",
 ]
 
 together_moa_openrouter = [

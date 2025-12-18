@@ -80,7 +80,7 @@ Based on [Li et al. (2025)](https://arxiv.org/abs/2502.00674): sampling one grea
 
 ```python
 pipeline = [
-    Propose(["gpt-5-nano-2025-08-07"] * 6, temp=0.7, max_tokens=512),  # 6 samples, one model
+    Propose(["gpt-5-nano-2025-08-07"] * 6, temp=0.7),  # 6 samples, one model
     Aggregate("gpt-5-nano-2025-08-07", max_tokens=1024),
 ]
 ```
@@ -120,7 +120,7 @@ async def multi_provider_client(model, messages, temp, max_tokens):
     # ... make API call
 
 pipeline = [
-    Propose(["gpt-5-nano-2025-08-07", "claude-sonnet-4-5", "gpt-5-nano-2025-08-07"], temp=0.7, max_tokens=512),
+    Propose(["gpt-5-nano-2025-08-07", "claude-sonnet-4-5", "gpt-5-nano-2025-08-07"], temp=0.7),
     Shuffle(),  # Prevent position bias
     Aggregate("claude-sonnet-4-5", max_tokens=1024),
 ]
@@ -154,7 +154,6 @@ PROPOSERS = [
     "qwen/qwen-2.5-72b-instruct",
     "meta-llama/llama-3.3-70b-instruct",
     "mistralai/mixtral-8x22b-instruct",
-    "databricks/dbrx-instruct",
 ]
 
 pipeline = [
