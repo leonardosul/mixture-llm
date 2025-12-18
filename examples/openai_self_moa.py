@@ -44,28 +44,53 @@ async def main():
 
     query = "Explain the implications of quantum computing for cryptography"
 
-    print(f"Query: {query}\n")
-    print("Running Self-MoA (6 samples from gpt-5-nano-2025-08-07)...")
+    # Show pipeline configuration
+    print("Pipeline:")
+    print("  Step 1: Propose")
+    print("    Models: gpt-5-nano-2025-08-07 (x6)")
+    print("  Step 2: Aggregate")
+    print("    Model: gpt-5-nano-2025-08-07")
+    print()
+    print(f"Query: {query}")
+    print()
+    print("Running Self-MoA...")
 
     result, history = await run(pipeline, query, openai_client)
 
-    print(f"\n{'=' * 60}\n")
+    # Show final output
+    print(f"\n{'=' * 60}")
+    print("OUTPUT:")
+    print(f"{'=' * 60}\n")
     print(result)
 
-    # Show individual proposals
+    # Show individual proposals (first 100 chars each)
     print(f"\n{'=' * 60}")
-    print("Individual proposals (first 200 chars each):\n")
+    print("PROPOSALS (first 100 chars each):")
+    print(f"{'=' * 60}")
     for i, output in enumerate(history[0]["outputs"], 1):
-        preview = output[:200].replace("\n", " ")
+        preview = output[:100].replace("\n", " ")
         print(f"  {i}. {preview}...")
 
-    # Token usage
+    # Show LLM calls with details
+    print(f"\n{'=' * 60}")
+    print("LLM CALLS:")
+    print(f"{'=' * 60}")
+    for step in history:
+        print(f"\n  {step['step']}:")
+        for call in step["llm_calls"]:
+            status = "✓" if "error" not in call else f"✗ {call['error']}"
+            tokens = f"{call['in_tokens']:,} in / {call['out_tokens']:,} out"
+            print(f"    {call['model']}: {call['time']:.2f}s | {tokens} | {status}")
+
+    # Show totals
     total_in = sum(c["in_tokens"] for h in history for c in h["llm_calls"])
     total_out = sum(c["out_tokens"] for h in history for c in h["llm_calls"])
     total_time = sum(h["step_time"] for h in history)
     print(f"\n{'=' * 60}")
-    print(f"Tokens: {total_in:,} in, {total_out:,} out")
-    print(f"Total time: {total_time:.2f}s")
+    print("TOTALS:")
+    print(f"{'=' * 60}")
+    print(f"  Time: {total_time:.2f}s")
+    print(f"  Tokens: {total_in:,} in / {total_out:,} out")
 
 
 if __name__ == "__main__":
