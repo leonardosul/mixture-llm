@@ -30,10 +30,10 @@ async def openai_client(model, messages, temp, max_tokens):
 
 
 async def main():
-    # Simple 2-layer MoA with GPT-4.1-mini
+    # Simple 2-layer MoA with GPT-5 Nano
     pipeline = [
-        Propose(["gpt-4.1-mini"] * 3, temp=0.7),
-        Aggregate("gpt-4.1-mini"),
+        Propose(["gpt-5-nano-2025-08-07"] * 3, temp=0.7),
+        Aggregate("gpt-5-nano-2025-08-07"),
     ]
 
     query = "What are the key differences between Python and Rust?"

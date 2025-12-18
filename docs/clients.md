@@ -53,16 +53,12 @@ anthropic_client = AsyncOpenAI(
 
 async def multi_provider_client(model, messages, temp, max_tokens):
     client = anthropic_client if model.startswith("claude") else openai_client
-    # GPT-5 models require max_completion_tokens, don't support custom temperature,
-    # and we disable reasoning for predictable token usage
-    is_gpt5 = model.startswith("gpt-5")
-    params = {
-        "model": model,
-        "messages": messages,
-        **({"max_completion_tokens": max_tokens, "reasoning_effort": "none"} if is_gpt5 else {"max_tokens": max_tokens}),
-        **({"temperature": temp} if not is_gpt5 else {}),
-    }
-    resp = await client.chat.completions.create(**params)
+    resp = await client.chat.completions.create(
+        model=model,
+        messages=messages,
+        temperature=temp,
+        max_tokens=max_tokens,
+    )
     return (
         resp.choices[0].message.content,
         resp.usage.prompt_tokens,
@@ -76,7 +72,7 @@ async def multi_provider_client(model, messages, temp, max_tokens):
 from mixture_llm import Propose, Aggregate
 
 pipeline = [
-    Propose(["gpt-5.2-chat-latest", "claude-sonnet-4-5", "gpt-4.1-mini"]),
+    Propose(["gpt-5-nano-2025-08-07", "claude-sonnet-4-5", "gpt-5-nano-2025-08-07"]),
     Aggregate("claude-sonnet-4-5"),
 ]
 ```

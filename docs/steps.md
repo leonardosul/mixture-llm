@@ -22,10 +22,10 @@ Propose(agents, temp=0.7, max_tokens=2048)
 
 ```python
 # Diverse models
-Propose(["gpt-5.2-chat-latest", "claude-sonnet-4-5", "llama-3.3-70b"])
+Propose(["gpt-5-nano-2025-08-07", "claude-sonnet-4-5", "llama-3.3-70b"])
 
 # Self-MoA: same model, multiple samples
-Propose(["gpt-5.2-chat-latest"] * 6, temp=0.7)
+Propose(["gpt-5-nano-2025-08-07"] * 6, temp=0.7)
 ```
 
 ---
@@ -49,7 +49,7 @@ Synthesize(agents, prompt=P_SYNTH, temp=0.7, max_tokens=2048)
 
 ```python
 # Standard MoA layer
-Synthesize(["gpt-5.2-chat-latest", "claude-sonnet-4-5", "llama-3.3-70b"])
+Synthesize(["gpt-5-nano-2025-08-07", "claude-sonnet-4-5", "llama-3.3-70b"])
 ```
 
 ---
@@ -72,10 +72,10 @@ Aggregate(agent, prompt=P_SYNTH, temp=0.7, max_tokens=2048)
 **Behavior**: Reduces N responses to 1. Typically the final step.
 
 ```python
-Aggregate("gpt-5.2-chat-latest")
+Aggregate("gpt-5-nano-2025-08-07")
 
 # Custom prompt
-Aggregate("gpt-5.2-chat-latest", prompt="Select the best response and return it verbatim.")
+Aggregate("gpt-5-nano-2025-08-07", prompt="Select the best response and return it verbatim.")
 ```
 
 ---
@@ -98,11 +98,11 @@ Refine(agents, prompt=P_REFINE, temp=0.7, max_tokens=2048)
 **Behavior**: Each response is refined independently. Agents are cycled if there are more responses than agents.
 
 ```python
-# Use GPT-5.2 to refine all responses
-Refine(["gpt-5.2-chat-latest"])
+# Use GPT-5 Nano to refine all responses
+Refine(["gpt-5-nano-2025-08-07"])
 
 # Different refiners for each response
-Refine(["gpt-5.2-chat-latest", "claude-sonnet-4-5"])
+Refine(["gpt-5-nano-2025-08-07", "claude-sonnet-4-5"])
 ```
 
 ---
@@ -126,7 +126,7 @@ Rank(agent, n=3, prompt=P_RANK, temp=0.7, max_tokens=2048)
 **Behavior**: LLM returns comma-separated indices of best responses. Falls back to first N if parsing fails.
 
 ```python
-Rank("gpt-5.2-chat-latest", n=3)
+Rank("gpt-5-nano-2025-08-07", n=3)
 ```
 
 ---
@@ -149,7 +149,7 @@ Vote(agent, prompt=P_VOTE, temp=0.7, max_tokens=2048)
 **Behavior**: Reduces N responses to 1 by finding consensus or selecting the best.
 
 ```python
-Vote("gpt-5.2-chat-latest")
+Vote("gpt-5-nano-2025-08-07")
 ```
 
 ---

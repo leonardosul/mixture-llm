@@ -19,16 +19,12 @@ client = AsyncOpenAI()
 
 
 async def openai_client(model, messages, temp, max_tokens):
-    # GPT-5 models require max_completion_tokens, don't support custom temperature,
-    # and we disable reasoning for predictable token usage
-    is_gpt5 = model.startswith("gpt-5")
-    params = {
-        "model": model,
-        "messages": messages,
-        **({"max_completion_tokens": max_tokens, "reasoning_effort": "none"} if is_gpt5 else {"max_tokens": max_tokens}),
-        **({"temperature": temp} if not is_gpt5 else {}),
-    }
-    resp = await client.chat.completions.create(**params)
+    resp = await client.chat.completions.create(
+        model=model,
+        messages=messages,
+        temperature=temp,
+        max_tokens=max_tokens,
+    )
     return (
         resp.choices[0].message.content,
         resp.usage.prompt_tokens,
@@ -40,14 +36,14 @@ async def main():
     # Self-MoA: same model, 6 samples, temperature 0.7 for diversity
     # This configuration can outperform diverse model mixtures
     pipeline = [
-        Propose(["gpt-5.2-chat-latest"] * 6, temp=0.7, max_tokens=512),
-        Aggregate("gpt-5.2-chat-latest", max_tokens=1024),
+        Propose(["gpt-5-nano-2025-08-07"] * 6, temp=0.7, max_tokens=512),
+        Aggregate("gpt-5-nano-2025-08-07", max_tokens=1024),
     ]
 
     query = "Explain the implications of quantum computing for cryptography"
 
     print(f"Query: {query}\n")
-    print("Running Self-MoA (6 samples from gpt-5.2-chat-latest)...")
+    print("Running Self-MoA (6 samples from gpt-5-nano-2025-08-07)...")
 
     result, history = await run(pipeline, query, openai_client)
 

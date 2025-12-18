@@ -20,8 +20,8 @@ pip install mixture-llm
 from mixture_llm import Propose, Aggregate, run
 
 pipeline = [
-    Propose(["gpt-5.2-chat-latest", "claude-sonnet-4-5", "llama-3.3-70b"]),
-    Aggregate("gpt-5.2-chat-latest"),
+    Propose(["gpt-5-nano-2025-08-07", "claude-sonnet-4-5", "llama-3.3-70b"]),
+    Aggregate("gpt-5-nano-2025-08-07"),
 ]
 
 result, history = await run(pipeline, "What is quantum computing?", my_client)
@@ -70,8 +70,8 @@ moa_lite = [
 ```python
 # Same model, multiple samples via temperature
 self_moa = [
-    Propose(["gpt-5.2-chat-latest"] * 6, temp=0.7),
-    Aggregate("gpt-5.2-chat-latest"),
+    Propose(["gpt-5-nano-2025-08-07"] * 6, temp=0.7),
+    Aggregate("gpt-5-nano-2025-08-07"),
 ]
 ```
 
@@ -81,10 +81,10 @@ Prevents positional bias and improves diversity.
 
 ```python
 robust_moa = [
-    Propose(["gpt-5.2-chat-latest", "claude-sonnet-4-5", "llama-70b", "gemini-2.5-flash"]),
+    Propose(["gpt-5-nano-2025-08-07", "claude-sonnet-4-5", "llama-70b", "gemini-2.5-flash"]),
     Shuffle(),
     Dropout(0.2),
-    Aggregate("gpt-5.2-chat-latest"),
+    Aggregate("gpt-5-nano-2025-08-07"),
 ]
 ```
 
@@ -111,13 +111,13 @@ robust_moa = [
 Every LLM step accepts `temp` and `max_tokens`:
 
 ```python
-Propose(["gpt-5.2-chat-latest", "claude-sonnet-4-5"], temp=0.9, max_tokens=4096)
+Propose(["gpt-5-nano-2025-08-07", "claude-sonnet-4-5"], temp=0.9, max_tokens=4096)
 ```
 
 Override the synthesis prompt:
 
 ```python
-Aggregate("gpt-5.2-chat-latest", prompt="Pick the single best response and return it verbatim.")
+Aggregate("gpt-5-nano-2025-08-07", prompt="Pick the single best response and return it verbatim.")
 ```
 
 ## Client examples
@@ -142,16 +142,14 @@ anthropic_client = AsyncOpenAI(
 
 async def multi_provider_client(model, messages, temp, max_tokens):
     client = anthropic_client if model.startswith("claude") else openai_client
-    # GPT-5: use max_completion_tokens, no temperature, disable reasoning
-    is_gpt5 = model.startswith("gpt-5")
-    params = {"model": model, "messages": messages}
-    params.update({"max_completion_tokens": max_tokens, "reasoning_effort": "none"} if is_gpt5 else {"max_tokens": max_tokens, "temperature": temp})
-    resp = await client.chat.completions.create(**params)
+    resp = await client.chat.completions.create(
+        model=model, messages=messages, temperature=temp, max_tokens=max_tokens
+    )
     return resp.choices[0].message.content, resp.usage.prompt_tokens, resp.usage.completion_tokens
 
 # Mix providers in one pipeline
 pipeline = [
-    Propose(["gpt-5.2-chat-latest", "claude-sonnet-4-5", "gpt-4.1-mini"]),
+    Propose(["gpt-5-nano-2025-08-07", "claude-sonnet-4-5", "gpt-5-nano-2025-08-07"]),
     Aggregate("claude-sonnet-4-5"),
 ]
 ```
