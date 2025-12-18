@@ -69,9 +69,10 @@ moa_lite = [
 
 ```python
 # Same model, multiple samples via temperature
+# Note: Use models that support temperature (not GPT-5.2)
 self_moa = [
-    Propose(["gpt-5.2-chat-latest"] * 6, temp=0.7),
-    Aggregate("gpt-5.2-chat-latest"),
+    Propose(["gpt-4.1"] * 6, temp=0.7),
+    Aggregate("gpt-4.1"),
 ]
 ```
 
