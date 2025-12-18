@@ -22,7 +22,7 @@ Propose(agents, temp=0.7, max_tokens=2048)
 
 ```python
 # Diverse models
-Propose(["gpt-5.2", "claude-sonnet-4-5-20250514", "llama-3.3-70b"])
+Propose(["gpt-5.2", "claude-sonnet-4-5", "llama-3.3-70b"])
 
 # Self-MoA: same model, multiple samples
 Propose(["gpt-5.2"] * 6, temp=0.7)
@@ -49,7 +49,7 @@ Synthesize(agents, prompt=P_SYNTH, temp=0.7, max_tokens=2048)
 
 ```python
 # Standard MoA layer
-Synthesize(["gpt-5.2", "claude-sonnet-4-5-20250514", "llama-3.3-70b"])
+Synthesize(["gpt-5.2", "claude-sonnet-4-5", "llama-3.3-70b"])
 ```
 
 ---
@@ -102,7 +102,7 @@ Refine(agents, prompt=P_REFINE, temp=0.7, max_tokens=2048)
 Refine(["gpt-5.2"])
 
 # Different refiners for each response
-Refine(["gpt-5.2", "claude-sonnet-4-5-20250514"])
+Refine(["gpt-5.2", "claude-sonnet-4-5"])
 ```
 
 ---

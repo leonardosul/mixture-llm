@@ -20,7 +20,7 @@ pip install mixture-llm
 from mixture_llm import Propose, Aggregate, run
 
 pipeline = [
-    Propose(["gpt-5.2", "claude-sonnet-4-5-20250514", "llama-3.3-70b"]),
+    Propose(["gpt-5.2", "claude-sonnet-4-5", "llama-3.3-70b"]),
     Aggregate("gpt-5.2"),
 ]
 
@@ -142,15 +142,17 @@ anthropic_client = AsyncOpenAI(
 
 async def multi_provider_client(model, messages, temp, max_tokens):
     client = anthropic_client if model.startswith("claude") else openai_client
+    # GPT-5.2 requires max_completion_tokens instead of max_tokens
+    token_param = {"max_completion_tokens": max_tokens} if model.startswith("gpt-5") else {"max_tokens": max_tokens}
     resp = await client.chat.completions.create(
-        model=model, messages=messages, temperature=temp, max_tokens=max_tokens
+        model=model, messages=messages, temperature=temp, **token_param
     )
     return resp.choices[0].message.content, resp.usage.prompt_tokens, resp.usage.completion_tokens
 
 # Mix providers in one pipeline
 pipeline = [
-    Propose(["gpt-5.2", "claude-sonnet-4-5-20250514", "gpt-5.2-mini"]),
-    Aggregate("claude-sonnet-4-5-20250514"),
+    Propose(["gpt-5.2", "claude-sonnet-4-5", "gpt-4.1-mini"]),
+    Aggregate("claude-sonnet-4-5"),
 ]
 ```
 

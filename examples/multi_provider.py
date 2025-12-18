@@ -28,11 +28,17 @@ async def multi_provider_client(model, messages, temp, max_tokens):
     """Route to appropriate provider based on model name."""
     client = anthropic_client if model.startswith("claude") else openai_client
 
+    # GPT-5.2 requires max_completion_tokens instead of max_tokens
+    token_param = (
+        {"max_completion_tokens": max_tokens}
+        if model.startswith("gpt-5")
+        else {"max_tokens": max_tokens}
+    )
     resp = await client.chat.completions.create(
         model=model,
         messages=messages,
         temperature=temp,
-        max_tokens=max_tokens,
+        **token_param,
     )
     return (
         resp.choices[0].message.content,
@@ -47,22 +53,22 @@ async def main():
         Propose(
             [
                 "gpt-5.2",
-                "claude-sonnet-4-5-20250514",
-                "gpt-5.2-mini",
+                "claude-sonnet-4-5",
+                "gpt-4.1-mini",
             ],
             temp=0.7,
             max_tokens=512,
         ),
         Shuffle(),  # Prevent position bias
-        Aggregate("claude-sonnet-4-5-20250514", max_tokens=1024),
+        Aggregate("claude-sonnet-4-5", max_tokens=1024),
     ]
 
     query = "What are the most promising approaches to aligning AI systems with human values?"
 
     print(f"Query: {query}\n")
     print("Running multi-provider MoA...")
-    print("  Proposers: gpt-5.2, claude-sonnet-4-5-20250514, gpt-5.2-mini")
-    print("  Aggregator: claude-sonnet-4-5-20250514\n")
+    print("  Proposers: gpt-5.2, claude-sonnet-4-5, gpt-4.1-mini")
+    print("  Aggregator: claude-sonnet-4-5\n")
 
     result, history = await run(pipeline, query, multi_provider_client)
 

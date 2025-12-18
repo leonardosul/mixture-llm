@@ -100,7 +100,7 @@ Add shuffle and dropout to prevent positional bias and improve diversity:
 from mixture_llm import Shuffle, Dropout
 
 robust_moa = [
-    Propose(["gpt-5.2", "claude-sonnet-4-5-20250514", "llama-3.3-70b", "gemini-2.5-flash"]),
+    Propose(["gpt-5.2", "claude-sonnet-4-5", "llama-3.3-70b", "gemini-2.5-flash"]),
     Shuffle(),
     Dropout(0.2),
     Aggregate("gpt-5.2"),
@@ -115,7 +115,7 @@ Use an LLM to select the best responses before aggregating:
 from mixture_llm import Rank
 
 rank_aggregate = [
-    Propose(["gpt-5.2", "claude-sonnet-4-5-20250514", "llama-3.3-70b", "gemini-2.5-flash", "gpt-5.2-mini"]),
+    Propose(["gpt-5.2", "claude-sonnet-4-5", "llama-3.3-70b", "gemini-2.5-flash", "gpt-4.1-mini"]),
     Rank("gpt-5.2", n=3),  # Keep top 3
     Aggregate("gpt-5.2"),
 ]
@@ -129,7 +129,7 @@ For tasks with clear correct answers, use voting to find consensus:
 from mixture_llm import Vote
 
 vote_pipeline = [
-    Propose(["gpt-5.2", "claude-sonnet-4-5-20250514", "llama-3.3-70b"], temp=0.3),
+    Propose(["gpt-5.2", "claude-sonnet-4-5", "llama-3.3-70b"], temp=0.3),
     Vote("gpt-5.2"),
 ]
 ```
@@ -142,7 +142,7 @@ Improve each response individually before aggregating:
 from mixture_llm import Refine
 
 refine_pipeline = [
-    Propose(["gpt-5.2-mini", "claude-haiku-4", "llama-3.1-8b"]),
+    Propose(["gpt-4.1-mini", "claude-haiku-4", "llama-3.1-8b"]),
     Refine(["gpt-5.2"]),  # GPT-5.2 improves each response
     Aggregate("gpt-5.2"),
 ]

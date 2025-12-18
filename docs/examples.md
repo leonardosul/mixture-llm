@@ -49,8 +49,8 @@ The simplest MoA implementation. Start here to understand the core pattern.
 from mixture_llm import Propose, Aggregate, run
 
 pipeline = [
-    Propose(["gpt-5.2-mini"] * 3, temp=0.7),  # 3 proposals via temperature
-    Aggregate("gpt-5.2-mini"),                 # Combine into final answer
+    Propose(["gpt-4.1-mini"] * 3, temp=0.7),  # 3 proposals via temperature
+    Aggregate("gpt-4.1-mini"),                 # Combine into final answer
 ]
 
 result, history = await run(pipeline, query, openai_client)
@@ -120,9 +120,9 @@ async def multi_provider_client(model, messages, temp, max_tokens):
     # ... make API call
 
 pipeline = [
-    Propose(["gpt-5.2", "claude-sonnet-4-5-20250514", "gpt-5.2-mini"], temp=0.7, max_tokens=512),
+    Propose(["gpt-5.2", "claude-sonnet-4-5", "gpt-4.1-mini"], temp=0.7, max_tokens=512),
     Shuffle(),  # Prevent position bias
-    Aggregate("claude-sonnet-4-5-20250514", max_tokens=1024),
+    Aggregate("claude-sonnet-4-5", max_tokens=1024),
 ]
 ```
 
