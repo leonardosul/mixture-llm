@@ -31,56 +31,6 @@ async def groq_client(model, messages, temp, max_tokens):
     )
 
 
-def print_history(history: list[dict]) -> None:
-    """Pretty print pipeline execution history."""
-    print("\n" + "=" * 60)
-    print("PIPELINE EXECUTION HISTORY")
-    print("=" * 60)
-
-    total_tokens_in = 0
-    total_tokens_out = 0
-    total_time = 0
-
-    for i, step in enumerate(history, 1):
-        print(f"\n[Step {i}] {step['step']}")
-        print(f"  Time: {step['step_time']:.2f}s")
-        print(f"  Outputs: {len(step['outputs'])}")
-
-        # LLM call details
-        if step["llm_calls"]:
-            print("  LLM calls:")
-            for call in step["llm_calls"]:
-                model = call["model"]
-                time = call["time"]
-                tokens_in = call["in_tokens"]
-                tokens_out = call["out_tokens"]
-
-                total_tokens_in += tokens_in
-                total_tokens_out += tokens_out
-
-                if "error" in call:
-                    print(f"    ✗ {model}: {call['error']}")
-                else:
-                    print(f"    ✓ {model}: {tokens_in}→{tokens_out} tokens, {time:.2f}s")
-
-        total_time += step["step_time"]
-
-        # Show output previews
-        print("  Output previews:")
-        for j, output in enumerate(step["outputs"][:3], 1):
-            preview = output[:80].replace("\n", " ")
-            print(f"    {j}. {preview}...")
-        if len(step["outputs"]) > 3:
-            print(f"    ... and {len(step['outputs']) - 3} more")
-
-    print("\n" + "-" * 60)
-    print("SUMMARY")
-    print("-" * 60)
-    print(f"  Total time: {total_time:.2f}s")
-    print(f"  Total tokens: {total_tokens_in:,} in, {total_tokens_out:,} out")
-    print(f"  Total LLM calls: {sum(len(s['llm_calls']) for s in history)}")
-
-
 async def main():
     pipeline = [
         Propose(["llama-3.3-70b-versatile"] * 4, temp=0.7, max_tokens=256),
@@ -91,17 +41,58 @@ async def main():
 
     query = "What makes a good API design?"
 
+    # Show pipeline configuration
+    print("Pipeline:")
+    print("  Step 1: Propose")
+    print("    Models: llama-3.3-70b-versatile (x4)")
+    print("  Step 2: Shuffle")
+    print("  Step 3: Rank")
+    print("    Model: llama-3.3-70b-versatile")
+    print("    Keep: top 2")
+    print("  Step 4: Aggregate")
+    print("    Model: llama-3.3-70b-versatile")
+    print()
     print(f"Query: {query}")
-    print("Pipeline: Propose(4) → Shuffle → Rank(top 2) → Aggregate")
+    print()
+    print("Running pipeline...")
 
     result, history = await run(pipeline, query, groq_client)
 
-    print_history(history)
-
-    print("\n" + "=" * 60)
-    print("FINAL RESULT")
-    print("=" * 60)
+    # Show final output
+    print(f"\n{'=' * 60}")
+    print("OUTPUT:")
+    print(f"{'=' * 60}\n")
     print(result)
+
+    # Show individual proposals (first 100 chars each)
+    print(f"\n{'=' * 60}")
+    print("PROPOSALS (first 100 chars each):")
+    print(f"{'=' * 60}")
+    for i, output in enumerate(history[0]["outputs"], 1):
+        preview = output[:100].replace("\n", " ")
+        print(f"  {i}. {preview}...")
+
+    # Show LLM calls with details
+    print(f"\n{'=' * 60}")
+    print("LLM CALLS:")
+    print(f"{'=' * 60}")
+    for step in history:
+        if step["llm_calls"]:
+            print(f"\n  {step['step']}:")
+            for call in step["llm_calls"]:
+                status = "✓" if "error" not in call else f"✗ {call['error']}"
+                tokens = f"{call['in_tokens']:,} in / {call['out_tokens']:,} out"
+                print(f"    {call['model']}: {call['time']:.2f}s | {tokens} | {status}")
+
+    # Show totals
+    total_in = sum(c["in_tokens"] for h in history for c in h["llm_calls"])
+    total_out = sum(c["out_tokens"] for h in history for c in h["llm_calls"])
+    total_time = sum(h["step_time"] for h in history)
+    print(f"\n{'=' * 60}")
+    print("TOTALS:")
+    print(f"{'=' * 60}")
+    print(f"  Time: {total_time:.2f}s")
+    print(f"  Tokens: {total_in:,} in / {total_out:,} out")
 
     # Save full history to JSON for analysis
     history_json = []
