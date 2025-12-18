@@ -69,12 +69,15 @@ from mixture_llm import Propose, Aggregate, run
 client = AsyncOpenAI()
 
 async def openai_client(model, messages, temp, max_tokens):
-    resp = await client.chat.completions.create(
-        model=model,
-        messages=messages,
-        temperature=temp,
-        max_tokens=max_tokens,
-    )
+    # GPT-5: use max_completion_tokens, no temperature, disable reasoning
+    is_gpt5 = model.startswith("gpt-5")
+    params = {
+        "model": model,
+        "messages": messages,
+        **({"max_completion_tokens": max_tokens, "reasoning_effort": "none"} if is_gpt5 else {"max_tokens": max_tokens}),
+        **({"temperature": temp} if not is_gpt5 else {}),
+    }
+    resp = await client.chat.completions.create(**params)
     return (
         resp.choices[0].message.content,
         resp.usage.prompt_tokens,

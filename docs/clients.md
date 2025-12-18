@@ -53,12 +53,13 @@ anthropic_client = AsyncOpenAI(
 
 async def multi_provider_client(model, messages, temp, max_tokens):
     client = anthropic_client if model.startswith("claude") else openai_client
-    # GPT-5 models require max_completion_tokens and don't support custom temperature
+    # GPT-5 models require max_completion_tokens, don't support custom temperature,
+    # and we disable reasoning for predictable token usage
     is_gpt5 = model.startswith("gpt-5")
     params = {
         "model": model,
         "messages": messages,
-        **({"max_completion_tokens": max_tokens} if is_gpt5 else {"max_tokens": max_tokens}),
+        **({"max_completion_tokens": max_tokens, "reasoning_effort": "none"} if is_gpt5 else {"max_tokens": max_tokens}),
         **({"temperature": temp} if not is_gpt5 else {}),
     }
     resp = await client.chat.completions.create(**params)
