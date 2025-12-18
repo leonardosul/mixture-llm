@@ -142,11 +142,11 @@ anthropic_client = AsyncOpenAI(
 
 async def multi_provider_client(model, messages, temp, max_tokens):
     client = anthropic_client if model.startswith("claude") else openai_client
-    # GPT-5.2 requires max_completion_tokens instead of max_tokens
-    token_param = {"max_completion_tokens": max_tokens} if model.startswith("gpt-5") else {"max_tokens": max_tokens}
-    resp = await client.chat.completions.create(
-        model=model, messages=messages, temperature=temp, **token_param
-    )
+    # GPT-5 models require max_completion_tokens and don't support custom temperature
+    is_gpt5 = model.startswith("gpt-5")
+    params = {"model": model, "messages": messages}
+    params.update({"max_completion_tokens": max_tokens} if is_gpt5 else {"max_tokens": max_tokens, "temperature": temp})
+    resp = await client.chat.completions.create(**params)
     return resp.choices[0].message.content, resp.usage.prompt_tokens, resp.usage.completion_tokens
 
 # Mix providers in one pipeline
