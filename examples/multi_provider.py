@@ -13,9 +13,9 @@ import asyncio
 import os
 
 from openai import AsyncOpenAI
+from utils import print_results
 
 from mixture_llm import Aggregate, Propose, Shuffle, run
-from utils import print_results
 
 # Two clients, same SDK
 openai_client = AsyncOpenAI()
@@ -28,12 +28,17 @@ anthropic_client = AsyncOpenAI(
 async def multi_provider_client(model, messages, temp, max_tokens):
     """Route to appropriate provider based on model name."""
     client = anthropic_client if model.startswith("claude") else openai_client
-    # GPT-5 models require max_completion_tokens, don't support custom temperature, and need reasoning_effort
+    # GPT-5 models require max_completion_tokens, don't support custom temperature,
+    # and need reasoning_effort
     is_gpt5 = model.startswith("gpt-5")
     params = {
         "model": model,
         "messages": messages,
-        **({"max_completion_tokens": max_tokens, "reasoning_effort": "minimal"} if is_gpt5 else {"max_tokens": max_tokens, "temperature": temp}),
+        **(
+            {"max_completion_tokens": max_tokens, "reasoning_effort": "minimal"}
+            if is_gpt5
+            else {"max_tokens": max_tokens, "temperature": temp}
+        ),
     }
     resp = await client.chat.completions.create(**params)
     return (
@@ -53,7 +58,6 @@ async def main():
                 "gpt-5-nano-2025-08-07",
             ],
             temp=0.7,
-            max_tokens=512,
         ),
         Shuffle(),  # Prevent position bias
         Aggregate("claude-sonnet-4-5", max_tokens=1024),

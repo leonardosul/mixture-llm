@@ -13,9 +13,9 @@ import asyncio
 import os
 
 from openai import AsyncOpenAI
+from utils import print_results
 
 from mixture_llm import Aggregate, Propose, Synthesize, run
-from utils import print_results
 
 client = AsyncOpenAI(
     base_url="https://openrouter.ai/api/v1",
@@ -42,7 +42,7 @@ PROPOSERS = [
     "qwen/qwen-2.5-72b-instruct",
     "meta-llama/llama-3.3-70b-instruct",
     "mistralai/mixtral-8x22b-instruct",
-    "databricks/dbrx-instruct",
+    # "databricks/dbrx-instruct", # No longer available on OpenRouter
 ]
 
 

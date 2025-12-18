@@ -12,20 +12,25 @@ Requirements:
 import asyncio
 
 from openai import AsyncOpenAI
+from utils import print_results
 
 from mixture_llm import Aggregate, Propose, run
-from utils import print_results
 
 client = AsyncOpenAI()
 
 
 async def openai_client(model, messages, temp, max_tokens):
-    # GPT-5 models require max_completion_tokens, don't support custom temperature, and need reasoning_effort
+    # GPT-5 models require max_completion_tokens, don't support custom temperature,
+    # and need reasoning_effort
     is_gpt5 = model.startswith("gpt-5")
     params = {
         "model": model,
         "messages": messages,
-        **({"max_completion_tokens": max_tokens, "reasoning_effort": "minimal"} if is_gpt5 else {"max_tokens": max_tokens, "temperature": temp}),
+        **(
+            {"max_completion_tokens": max_tokens, "reasoning_effort": "minimal"}
+            if is_gpt5
+            else {"max_tokens": max_tokens, "temperature": temp}
+        ),
     }
     resp = await client.chat.completions.create(**params)
     return (
@@ -39,7 +44,7 @@ async def main():
     # Self-MoA: same model, 6 samples, temperature 0.7 for diversity
     # This configuration can outperform diverse model mixtures
     pipeline = [
-        Propose(["gpt-5-nano-2025-08-07"] * 6, temp=0.7, max_tokens=512),
+        Propose(["gpt-5-nano-2025-08-07"] * 6, temp=0.7),
         Aggregate("gpt-5-nano-2025-08-07", max_tokens=1024),
     ]
 
