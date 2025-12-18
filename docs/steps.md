@@ -24,8 +24,8 @@ Propose(agents, temp=0.7, max_tokens=2048)
 # Diverse models
 Propose(["gpt-5.2-chat-latest", "claude-sonnet-4-5", "llama-3.3-70b"])
 
-# Self-MoA: same model, multiple samples (use models that support temperature)
-Propose(["gpt-4.1"] * 6, temp=0.7)
+# Self-MoA: same model, multiple samples
+Propose(["gpt-5.2-chat-latest"] * 6, temp=0.7)
 ```
 
 ---

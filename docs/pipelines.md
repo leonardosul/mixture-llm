@@ -68,10 +68,9 @@ moa_gpt5 = [
 
 ```python
 # Same model, multiple samples via temperature
-# Note: Use models that support temperature (not GPT-5.2)
 self_moa = [
-    Propose(["gpt-4.1"] * 6, temp=0.7),
-    Aggregate("gpt-4.1"),
+    Propose(["gpt-5.2-chat-latest"] * 6, temp=0.7),
+    Aggregate("gpt-5.2-chat-latest"),
 ]
 ```
 
@@ -86,10 +85,10 @@ For context-limited scenarios, Self-MoA-Seq uses a sliding window approach:
 ```python
 # Iterative refinement for long contexts
 self_moa_seq = [
-    Propose(["gpt-4.1"] * 3, temp=0.7),
-    Aggregate("gpt-4.1"),
-    Propose(["gpt-4.1"] * 3, temp=0.7),
-    Aggregate("gpt-4.1"),
+    Propose(["gpt-5.2-chat-latest"] * 3, temp=0.7),
+    Aggregate("gpt-5.2-chat-latest"),
+    Propose(["gpt-5.2-chat-latest"] * 3, temp=0.7),
+    Aggregate("gpt-5.2-chat-latest"),
 ]
 ```
 

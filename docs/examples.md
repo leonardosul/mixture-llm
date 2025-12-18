@@ -79,10 +79,9 @@ python examples/openai_basic.py
 Based on [Li et al. (2025)](https://arxiv.org/abs/2502.00674): sampling one great model multiple times outperforms diverse mediocre models by **+6.6%** on AlpacaEval 2.0.
 
 ```python
-# Note: Use models that support temperature (not GPT-5.2)
 pipeline = [
-    Propose(["gpt-4.1"] * 6, temp=0.7, max_tokens=512),  # 6 samples, one model
-    Aggregate("gpt-4.1", max_tokens=1024),
+    Propose(["gpt-5.2-chat-latest"] * 6, temp=0.7, max_tokens=512),  # 6 samples, one model
+    Aggregate("gpt-5.2-chat-latest", max_tokens=1024),
 ]
 ```
 
