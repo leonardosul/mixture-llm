@@ -20,8 +20,8 @@ pip install mixture-llm
 from mixture_llm import Propose, Aggregate, run
 
 pipeline = [
-    Propose(["gpt-5.2", "claude-sonnet-4-5", "llama-3.3-70b"]),
-    Aggregate("gpt-5.2"),
+    Propose(["gpt-5.2-chat-latest", "claude-sonnet-4-5", "llama-3.3-70b"]),
+    Aggregate("gpt-5.2-chat-latest"),
 ]
 
 result, history = await run(pipeline, "What is quantum computing?", my_client)
@@ -70,8 +70,8 @@ moa_lite = [
 ```python
 # Same model, multiple samples via temperature
 self_moa = [
-    Propose(["gpt-5.2"] * 6, temp=0.7),
-    Aggregate("gpt-5.2"),
+    Propose(["gpt-5.2-chat-latest"] * 6, temp=0.7),
+    Aggregate("gpt-5.2-chat-latest"),
 ]
 ```
 
@@ -81,10 +81,10 @@ Prevents positional bias and improves diversity.
 
 ```python
 robust_moa = [
-    Propose(["gpt-5.2", "claude-sonnet-4-5", "llama-70b", "gemini-2.5-flash"]),
+    Propose(["gpt-5.2-chat-latest", "claude-sonnet-4-5", "llama-70b", "gemini-2.5-flash"]),
     Shuffle(),
     Dropout(0.2),
-    Aggregate("gpt-5.2"),
+    Aggregate("gpt-5.2-chat-latest"),
 ]
 ```
 
@@ -111,13 +111,13 @@ robust_moa = [
 Every LLM step accepts `temp` and `max_tokens`:
 
 ```python
-Propose(["gpt-5.2", "claude-sonnet-4-5"], temp=0.9, max_tokens=4096)
+Propose(["gpt-5.2-chat-latest", "claude-sonnet-4-5"], temp=0.9, max_tokens=4096)
 ```
 
 Override the synthesis prompt:
 
 ```python
-Aggregate("gpt-5.2", prompt="Pick the single best response and return it verbatim.")
+Aggregate("gpt-5.2-chat-latest", prompt="Pick the single best response and return it verbatim.")
 ```
 
 ## Client examples
@@ -151,7 +151,7 @@ async def multi_provider_client(model, messages, temp, max_tokens):
 
 # Mix providers in one pipeline
 pipeline = [
-    Propose(["gpt-5.2", "claude-sonnet-4-5", "gpt-4.1-mini"]),
+    Propose(["gpt-5.2-chat-latest", "claude-sonnet-4-5", "gpt-4.1-mini"]),
     Aggregate("claude-sonnet-4-5"),
 ]
 ```

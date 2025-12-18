@@ -52,7 +52,7 @@ async def main():
     pipeline = [
         Propose(
             [
-                "gpt-5.2",
+                "gpt-5.2-chat-latest",
                 "claude-sonnet-4-5",
                 "gpt-4.1-mini",
             ],
@@ -67,7 +67,7 @@ async def main():
 
     print(f"Query: {query}\n")
     print("Running multi-provider MoA...")
-    print("  Proposers: gpt-5.2, claude-sonnet-4-5, gpt-4.1-mini")
+    print("  Proposers: gpt-5.2-chat-latest, claude-sonnet-4-5, gpt-4.1-mini")
     print("  Aggregator: claude-sonnet-4-5\n")
 
     result, history = await run(pipeline, query, multi_provider_client)

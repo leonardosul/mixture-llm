@@ -78,7 +78,7 @@ async def multi_provider_client(model, messages, temp, max_tokens):
 from mixture_llm import Propose, Aggregate
 
 pipeline = [
-    Propose(["gpt-5.2", "claude-sonnet-4-5", "gpt-4.1-mini"]),
+    Propose(["gpt-5.2-chat-latest", "claude-sonnet-4-5", "gpt-4.1-mini"]),
     Aggregate("claude-sonnet-4-5"),
 ]
 ```

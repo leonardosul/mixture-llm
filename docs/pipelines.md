@@ -54,7 +54,7 @@ moa_gpt5 = [
     Propose(PROPOSERS, temp=0.7, max_tokens=512),
     Synthesize(PROPOSERS, temp=0.7, max_tokens=512),
     Synthesize(PROPOSERS, temp=0.7, max_tokens=512),
-    Aggregate("gpt-5.2"),
+    Aggregate("gpt-5.2-chat-latest"),
 ]
 ```
 
@@ -69,8 +69,8 @@ moa_gpt5 = [
 ```python
 # Same model, multiple samples via temperature
 self_moa = [
-    Propose(["gpt-5.2"] * 6, temp=0.7),
-    Aggregate("gpt-5.2"),
+    Propose(["gpt-5.2-chat-latest"] * 6, temp=0.7),
+    Aggregate("gpt-5.2-chat-latest"),
 ]
 ```
 
@@ -85,10 +85,10 @@ For context-limited scenarios, Self-MoA-Seq uses a sliding window approach:
 ```python
 # Iterative refinement for long contexts
 self_moa_seq = [
-    Propose(["gpt-5.2"] * 3, temp=0.7),
-    Aggregate("gpt-5.2"),
-    Propose(["gpt-5.2"] * 3, temp=0.7),
-    Aggregate("gpt-5.2"),
+    Propose(["gpt-5.2-chat-latest"] * 3, temp=0.7),
+    Aggregate("gpt-5.2-chat-latest"),
+    Propose(["gpt-5.2-chat-latest"] * 3, temp=0.7),
+    Aggregate("gpt-5.2-chat-latest"),
 ]
 ```
 
@@ -100,10 +100,10 @@ Add shuffle and dropout to prevent positional bias and improve diversity:
 from mixture_llm import Shuffle, Dropout
 
 robust_moa = [
-    Propose(["gpt-5.2", "claude-sonnet-4-5", "llama-3.3-70b", "gemini-2.5-flash"]),
+    Propose(["gpt-5.2-chat-latest", "claude-sonnet-4-5", "llama-3.3-70b", "gemini-2.5-flash"]),
     Shuffle(),
     Dropout(0.2),
-    Aggregate("gpt-5.2"),
+    Aggregate("gpt-5.2-chat-latest"),
 ]
 ```
 
@@ -115,9 +115,9 @@ Use an LLM to select the best responses before aggregating:
 from mixture_llm import Rank
 
 rank_aggregate = [
-    Propose(["gpt-5.2", "claude-sonnet-4-5", "llama-3.3-70b", "gemini-2.5-flash", "gpt-4.1-mini"]),
-    Rank("gpt-5.2", n=3),  # Keep top 3
-    Aggregate("gpt-5.2"),
+    Propose(["gpt-5.2-chat-latest", "claude-sonnet-4-5", "llama-3.3-70b", "gemini-2.5-flash", "gpt-4.1-mini"]),
+    Rank("gpt-5.2-chat-latest", n=3),  # Keep top 3
+    Aggregate("gpt-5.2-chat-latest"),
 ]
 ```
 
@@ -129,8 +129,8 @@ For tasks with clear correct answers, use voting to find consensus:
 from mixture_llm import Vote
 
 vote_pipeline = [
-    Propose(["gpt-5.2", "claude-sonnet-4-5", "llama-3.3-70b"], temp=0.3),
-    Vote("gpt-5.2"),
+    Propose(["gpt-5.2-chat-latest", "claude-sonnet-4-5", "llama-3.3-70b"], temp=0.3),
+    Vote("gpt-5.2-chat-latest"),
 ]
 ```
 
@@ -143,8 +143,8 @@ from mixture_llm import Refine
 
 refine_pipeline = [
     Propose(["gpt-4.1-mini", "claude-haiku-4", "llama-3.1-8b"]),
-    Refine(["gpt-5.2"]),  # GPT-5.2 improves each response
-    Aggregate("gpt-5.2"),
+    Refine(["gpt-5.2-chat-latest"]),  # GPT-5.2 improves each response
+    Aggregate("gpt-5.2-chat-latest"),
 ]
 ```
 
