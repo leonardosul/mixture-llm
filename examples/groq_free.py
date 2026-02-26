@@ -15,9 +15,9 @@ See https://console.groq.com/docs/rate-limits
 import asyncio
 
 from litellm import acompletion
+from utils import print_results
 
 from mixture_llm import Aggregate, Dropout, Propose, Shuffle, run
-from utils import print_results
 
 
 async def groq_client(model, messages, temp, max_tokens):

@@ -13,9 +13,9 @@ import asyncio
 import json
 
 from litellm import acompletion
+from utils import print_results
 
 from mixture_llm import Aggregate, Propose, Rank, Shuffle, run
-from utils import print_results
 
 
 async def groq_client(model, messages, temp, max_tokens):
