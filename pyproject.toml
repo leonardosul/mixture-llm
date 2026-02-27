@@ -33,6 +33,7 @@ dev = [
     "mixture-llm[examples]",
     "pytest>=8",
     "pytest-asyncio>=0.24",
+    "pytest-cov>=4.0",
     "ruff>=0.6",
     "pre-commit>=3.8",
     "build>=1.2",
