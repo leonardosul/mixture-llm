@@ -86,5 +86,5 @@ asyncio_mode = "auto"
 mixture_llm = ["py.typed"]
 
 [tool.basedpyright]
-pythonVersion = "3.10"
+pythonVersion = "3.13"
 typeCheckingMode = "strict"
