@@ -34,7 +34,7 @@ jobs:
           fi
 
           if git diff --name-only "$BASE_SHA" "$HEAD_SHA" | \
-             grep -qE '^(src/|tests/|examples/|pyproject\.toml$|\.github/workflows/test\.yaml$)'; then
+             grep -qE '^(src/|tests/|examples/|pyproject\.toml$|uv\.lock$|\.github/workflows/test\.yaml$)'; then
             echo "Test-relevant paths changed"
             echo "python=true" >> "$GITHUB_OUTPUT"
           else
@@ -54,17 +54,12 @@ jobs:
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6
+      - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
         with:
           python-version: ${{ matrix.python-version }}
-          cache: pip
-          cache-dependency-path: pyproject.toml
-
-      - name: Install dependencies
-        run: pip install -e ".[dev]"
 
       - name: Run tests with coverage
-        run: pytest --cov=src/mixture_llm --cov-report=xml --cov-report=term
+        run: uv run --group test pytest --cov=src/mixture_llm --cov-report=xml --cov-report=term
 
       - name: Upload coverage report
         if: matrix.python-version == '3.12' && github.event_name == 'pull_request'

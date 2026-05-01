@@ -1,4 +1,4 @@
-name: release-please
+name: Release
 
 on:
   push:
@@ -35,21 +35,15 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6
+      - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
         with:
-          python-version: "3.10"
-          cache: pip
-          cache-dependency-path: pyproject.toml
+          python-version: "3.12"
 
       - name: Build dist
-        run: |
-          python -m pip install -U pip build
-          python -m build
+        run: uv build
 
       - name: Verify dist metadata
-        run: |
-          python -m pip install -U twine
-          twine check dist/*
+        run: uvx twine check dist/*
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # v1.14.0
