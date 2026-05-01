@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3](https://github.com/leonardosul/mixture-llm/compare/v0.1.2...v0.1.3) (2026-05-01)
+
+
+### Documentation
+
+* fix CI badge and add release and license badges ([#18](https://github.com/leonardosul/mixture-llm/issues/18)) ([8a2cc34](https://github.com/leonardosul/mixture-llm/commit/8a2cc34dc993a80f825453512c53468d0f93696c))
+
 ## [0.1.2](https://github.com/leonardosul/mixture-llm/compare/v0.1.1...v0.1.2) (2025-12-18)
 
 
