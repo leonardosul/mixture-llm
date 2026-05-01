@@ -1,14 +1,7 @@
 name: Precommit
 
 on:
-  pull_request:
-    paths:
-      - ".github/workflows/precommit.yaml"
-      - ".pre-commit-config.yaml"
-      - "src/**"
-      - "tests/**"
-      - "examples/**"
-      - "pyproject.toml"
+  pull_request: {}
 
 permissions:
   contents: read
