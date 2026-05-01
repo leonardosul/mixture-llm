@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-pip install mixture-llm
+uv add mixture-llm
 ```
 
 ## Basic usage

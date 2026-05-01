@@ -5,7 +5,7 @@ From Li et al. (2025) - "Rethinking Mixture-of-Agents"
 Self-MoA outperforms standard MoA by 6.6% on AlpacaEval 2.0.
 
 Requirements:
-    pip install mixture-llm[openai]
+    uv add mixture-llm[openai]
     export OPENAI_API_KEY=sk-...
 """
 

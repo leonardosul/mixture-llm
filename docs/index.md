@@ -30,7 +30,7 @@ result, history = await run(pipeline, "What is quantum computing?", client)
 ## Quick install
 
 ```bash
-pip install mixture-llm
+uv add mixture-llm
 ```
 
 ## Next steps

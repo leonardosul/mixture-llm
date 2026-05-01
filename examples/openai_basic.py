@@ -2,7 +2,7 @@
 Basic MoA example using OpenAI.
 
 Requirements:
-    pip install mixture-llm[openai]
+    uv add mixture-llm[openai]
     export OPENAI_API_KEY=sk-...
 """
 

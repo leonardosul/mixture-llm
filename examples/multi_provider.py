@@ -4,7 +4,7 @@ Multi-provider MoA: Mix OpenAI and Anthropic models.
 Uses OpenAI SDK for both providers (Anthropic supports OpenAI-compatible API).
 
 Requirements:
-    pip install mixture-llm[openai]
+    uv add mixture-llm[openai]
     export OPENAI_API_KEY=sk-...
     export ANTHROPIC_API_KEY=sk-ant-...
 """
