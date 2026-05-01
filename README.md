@@ -1,7 +1,9 @@
 # mixture-llm
 
-[![CI](https://github.com/leonardosul/mixture-llm/actions/workflows/ci.yaml/badge.svg)](https://github.com/leonardosul/mixture-llm/actions/workflows/ci.yaml)
+[![Test](https://github.com/leonardosul/mixture-llm/actions/workflows/test.yaml/badge.svg)](https://github.com/leonardosul/mixture-llm/actions/workflows/test.yaml)
+[![Release](https://img.shields.io/github/v/release/leonardosul/mixture-llm)](https://github.com/leonardosul/mixture-llm/releases/latest)
 [![PyPI](https://img.shields.io/pypi/v/mixture-llm)](https://pypi.org/project/mixture-llm/)
+[![License: MIT](https://img.shields.io/github/license/leonardosul/mixture-llm)](LICENSE)
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://leonardosul.github.io/mixture-llm)
 
 Combine LLMs to beat the best single LLM.
