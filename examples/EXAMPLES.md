@@ -10,11 +10,11 @@ git clone https://github.com/yourusername/mixture-llm
 cd mixture-llm
 
 # Install with example dependencies
-pip install -e ".[examples]"
+uv pip install -e ".[examples]"
 
 # Or install specific providers
-pip install -e ".[openai]"    # OpenAI + Anthropic
-pip install -e ".[litellm]"   # Groq via LiteLLM
+uv pip install -e ".[openai]"    # OpenAI + Anthropic
+uv pip install -e ".[litellm]"   # Groq via LiteLLM
 ```
 
 ## Running examples

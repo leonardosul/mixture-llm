@@ -5,7 +5,7 @@ The `run` function returns detailed history of each step,
 useful for debugging, analysis, and cost tracking.
 
 Requirements:
-    pip install mixture-llm[litellm]
+    uv add mixture-llm[litellm]
     export GROQ_API_KEY=gsk_...
 """
 

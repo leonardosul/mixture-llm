@@ -12,9 +12,11 @@ repos:
         args: [--config=pyproject.toml, --fix, --exit-non-zero-on-fix]
       - id: ruff-format
         args: [--config=pyproject.toml]
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.19.1
+  - repo: local
     hooks:
-      - id: mypy
+      - id: basedpyright
+        name: basedpyright
+        entry: uv run --group lint basedpyright
+        language: system
+        types: [python]
         files: ^src/
-        args: [--config-file=pyproject.toml]

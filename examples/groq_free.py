@@ -5,7 +5,7 @@ Groq offers free access to several models with fast inference.
 Great for experimentation without API costs.
 
 Requirements:
-    pip install mixture-llm[litellm]
+    uv add mixture-llm[litellm]
     export GROQ_API_KEY=gsk_...
 
 Note: Free tier has rate limits (30 RPM for most models).

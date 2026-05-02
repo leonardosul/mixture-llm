@@ -18,14 +18,14 @@ The [`examples/`](https://github.com/leonardosul/mixture-llm/tree/main/examples)
 ### Install Dependencies
 
 ```bash
-pip install mixture-llm[examples]
+uv add mixture-llm[examples]
 ```
 
 Or install specific providers:
 
 ```bash
-pip install mixture-llm[openai]    # OpenAI + Anthropic
-pip install mixture-llm[litellm]   # Groq via LiteLLM
+uv add mixture-llm[openai]    # OpenAI + Anthropic
+uv add mixture-llm[litellm]   # Groq via LiteLLM
 ```
 
 ### Set API Keys

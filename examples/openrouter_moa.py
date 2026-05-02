@@ -5,7 +5,7 @@ Approximates the paper's benchmark-winning setup using OpenRouter
 to access multiple model providers through one API.
 
 Requirements:
-    pip install mixture-llm[openai]
+    uv add mixture-llm[openai]
     export OPENROUTER_API_KEY=sk-or-...
 """
 

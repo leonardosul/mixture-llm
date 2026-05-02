@@ -13,7 +13,7 @@ The Mixture-of-Agents architecture achieved **65.1% on AlpacaEval 2.0** using on
 ## Install
 
 ```bash
-pip install mixture-llm
+uv add mixture-llm
 ```
 
 ## Quick start
@@ -236,7 +236,7 @@ The [`examples/`](examples/) directory contains tested, runnable scripts for dif
 
 ```bash
 # Install and run
-pip install -e ".[examples]"
+uv add mixture-llm[examples]
 export OPENAI_API_KEY=sk-...
 python examples/openai_basic.py
 

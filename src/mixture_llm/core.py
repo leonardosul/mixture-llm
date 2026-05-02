@@ -254,6 +254,9 @@ async def run(pipeline: list[Any], query: str, client: Client) -> tuple[str, lis
             case Map(fn):
                 responses = [fn(o) for o in responses]
 
+            case _:
+                raise TypeError(f"Unknown pipeline step: {step!r}")
+
         history.append(
             {
                 "step": type(step).__name__,
