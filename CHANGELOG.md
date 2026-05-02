@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.4](https://github.com/leonardosul/mixture-llm/compare/v0.1.3...v0.1.4) (2026-05-02)
+
+
+### Documentation
+
+* add SECURITY.md and PR template ([#26](https://github.com/leonardosul/mixture-llm/issues/26)) ([8c7f411](https://github.com/leonardosul/mixture-llm/commit/8c7f4118ebf5124972992bee5e11d5a89009f20e))
+
 ## [0.1.3](https://github.com/leonardosul/mixture-llm/compare/v0.1.2...v0.1.3) (2026-05-01)
 
 
