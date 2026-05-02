@@ -63,7 +63,7 @@ jobs:
 
       - name: Upload coverage report
         if: matrix.python-version == '3.13' && github.event_name == 'pull_request'
-        uses: MishaKav/pytest-coverage-comment@46a1348587126fb199084ee9024ce511cb3abbdb # v1.4.0
+        uses: MishaKav/pytest-coverage-comment@dd5b80bde6d16941f336518e92929e89069d8451 # v1.7.2
         with:
           pytest-xml-coverage-path: coverage.xml
           title: Coverage Report
