@@ -38,7 +38,6 @@ __all__ = [
     "__version__",
 ]
 
-# TODO: Update version fallback using release-please
 try:
     __version__ = _version("mixture-llm")
 except PackageNotFoundError:  # pragma: no cover
