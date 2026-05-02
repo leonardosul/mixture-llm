@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.5](https://github.com/leonardosul/mixture-llm/compare/v0.1.4...v0.1.5) (2026-05-02)
+
+
+### Bug Fixes
+
+* remove stale TODO and fix basedpyright pre-commit hook ([#29](https://github.com/leonardosul/mixture-llm/issues/29)) ([d549910](https://github.com/leonardosul/mixture-llm/commit/d549910eca445772efb7e6069d484ab9214f6d94))
+
 ## [0.1.4](https://github.com/leonardosul/mixture-llm/compare/v0.1.3...v0.1.4) (2026-05-02)
 
 
