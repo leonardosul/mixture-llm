@@ -42,4 +42,4 @@ __all__ = [
 try:
     __version__ = _version("mixture-llm")
 except PackageNotFoundError:  # pragma: no cover
-    __version__ = "0.1.3"
+    __version__ = "0.1.4"
