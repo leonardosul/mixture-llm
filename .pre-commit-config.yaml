@@ -3,8 +3,13 @@ repos:
     rev: v6.0.0
     hooks:
       - id: check-yaml
+      - id: check-toml
+      - id: check-json
       - id: end-of-file-fixer
       - id: trailing-whitespace
+      - id: detect-private-key
+      - id: detect-aws-credentials
+        args: ["--allow-missing-credentials"]
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.14.9
     hooks:
